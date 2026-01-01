@@ -24,3 +24,18 @@ export const placeSpotOrder = async (symbol, quantity, side, price) => {
     throw error;
   }
 };
+
+// utils/binance.js (add futures-related functionality)
+export const placeFuturesOrder = async (symbol, quantity, side, price, leverage) => {
+  try {
+    // Set leverage for futures trading
+    await binance.futuresLeverage(symbol, leverage);
+
+    // Place a futures order (Buy or Sell)
+    const order = await binance.futuresMarketOrder(symbol, side, { quantity, price });
+    return order;
+  } catch (error) {
+    console.error("Error placing futures order", error);
+    throw error;
+  }
+};
